@@ -29,6 +29,10 @@
           name: "Ian",
           location: "B5 4UA",
           image: "file:///Users/ianwatson/consultantmap/stuarttest.jpg"
+        },
+        {
+          name: "Patrick",
+          location: "DE11 7PJ",
         }
       ];
 
@@ -69,15 +73,27 @@
             console.log("consultant name -> " + consultant.name);
             console.log("location is -> " + results[0].geometry.location);
 
+
+            var htmlV;
+            if (consultant.image != null) {
+
+                htmlV =  '<div>\
+                        <p>'+consultant.name+'</p>\
+                        <img src="'+consultant.image+'" style="width:50px;height:50px"/>\
+                      </div>'
+              } else {
+                console.log("in else");
+                htmlV = '<div><p>'+consultant.name+'</p></div>'
+              }
+
             var marker = new google.maps.Marker({
               map: map,
               position: results[0].geometry.location,
               name: consultant.name,
+              html: htmlV
               //html: '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Smiley.svg/2000px-Smiley.svg.png"/>'
-              html: '<div>\
-                      <p>'+consultant.name+'</p>\
-                      <img src="'+consultant.image+'" style="width:50px;height:50px"/>\
-                    </div>'
+
+              
             });
 
             google.maps.event.addListener(marker, 'click', function(){

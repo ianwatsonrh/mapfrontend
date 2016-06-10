@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+      consultants = [
+        {
+          name: "Stuart",
+          location: "B31 3XP",
+          image: "file:///Users/ianwatson/consultantmap/stuarttest.jpg"
+        },
+        {
+          name: "Ian",
+          location: "B5 4UA",
+          image: "file:///Users/ianwatson/consultantmap/stuarttest.jpg"
+        }
+      ];
+
+      console.log(consultants[0].name);
+
+      var locations = [
+        ['Bondi Beach', -33.890542, 151.274856, 4],
+        ['Coogee Beach', -33.923036, 151.259052, 5],
+        ['Cronulla Beach', -34.028249, 151.157507, 3],
+        ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+        ['Maroubra Beach', -33.950198, 151.259302, 1]
+      ];
+      var map;
+      var markers = [];
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 51.495221, lng: -0.131071},
+          zoom: 12
+        });
+
+        geocoder = new google.maps.Geocoder();
+
+        var num_markers = locations.length;
+        var consultants_marker = consultants.length;
+
+        for (var j = 0; j < consultants_marker; j++) {
+
+          createMarker(consultants[j])
+        }
+      }
+
+      function createMarker(consultant) {
+
+        console.log("Creating consultant for " + consultant.name);
+        geocoder.geocode( { 'address': consultant.location}, function(results, status) {
+
+            console.log("consultant name -> " + consultant.name);
+            console.log("location is -> " + results[0].geometry.location);
+
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+              name: consultant.name,
+              //html: '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Smiley.svg/2000px-Smiley.svg.png"/>'
+              html: '<div>\
+                      <p>'+consultant.name+'</p>\
+                      <img src="'+consultant.image+'" style="width:50px;height:50px"/>\
+                    </div>'
+            });
+
+            google.maps.event.addListener(marker, 'click', function(){
+              var infowindow = new google.maps.InfoWindow({
+                id: this.id,
+                content:this.html,
+                position:this.getPosition()
+              });
+              google.maps.event.addListenerOnce(infowindow, 'closeclick', function(){
+                marker.setVisible(true);
+              });
+              marker.setVisible(false);
+              infowindow.open(map);
+            });
+            
+
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBn4TTH7tGFGZcrM7IIBL3jfkpL3mZKZQo&callback=initMap"
+    async defer></script>
+  </body>
+</html>

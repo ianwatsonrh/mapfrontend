@@ -19,6 +19,12 @@
     <div id="map"></div>
     <script>
 
+   /* $.get("http://www.google.com",test1);
+
+    function test1(result) {
+      console.log("result is -> result");
+    }*/
+
       function httpGetAsync(theUrl, callback)
       {
           var xmlHttp = new XMLHttpRequest();
@@ -30,7 +36,7 @@
           xmlHttp.send(null);
       }
 
-      httpGetAsync("http://test-frontend.apps.openshift.red",consultantDone);
+      httpGetAsync("data.json",consultantDone);
 
       function consultantDone(consultants) {
         console.log("Consultants -> " + consultants);

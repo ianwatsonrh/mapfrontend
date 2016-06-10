@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-frontend",
+  "version": "0.0.1",
+  "description": "Frontend for map",
+  "main": "server.js",
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
+  "scripts": {
+    "start": "node server.js",
+  },
+}

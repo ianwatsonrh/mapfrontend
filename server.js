@@ -2,13 +2,17 @@ var http = require('http');
 var fs = require('fs');
 http.createServer(function (request, response) {
 
+console.log("HOST -> " + process.env.DATAHOST);
+console.log("PORT -> " + process.env.DATAPORT);
+
+
 if (request.url == "/data.json") {
 
     console.log('request starting...');
 
 	var options = {
-	  host: 'google.com',
-	  port: '80',
+	  host: process.env.DATAHOST,
+	  port: process.env.DATAPORT,
 	  path: '/',
 	  method: 'GET',
 	  headers: {

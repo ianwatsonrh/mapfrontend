@@ -19,6 +19,24 @@
     <div id="map"></div>
     <script>
 
+      function httpGetAsync(theUrl, callback)
+      {
+          var xmlHttp = new XMLHttpRequest();
+          xmlHttp.onreadystatechange = function() { 
+              if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                  callback(xmlHttp.responseText);
+          }
+          xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+          xmlHttp.send(null);
+      }
+
+      httpGetAsync("http://www.google.com",consultantDone);
+
+      function consultantDone(consultants) {
+        console.log("Consultants -> " + consultants);
+      }
+
+
       consultants = [
         {
           name: "Stuart",
@@ -82,7 +100,6 @@
                         <img src="'+consultant.image+'" style="width:50px;height:50px"/>\
                       </div>'
               } else {
-                console.log("in else");
                 htmlV = '<div><p>'+consultant.name+'</p></div>'
               }
 

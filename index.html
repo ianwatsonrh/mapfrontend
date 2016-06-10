@@ -36,14 +36,21 @@
           xmlHttp.send(null);
       }
 
-      httpGetAsync("data.json",consultantDone);
+      function loadConsultants() {
+        httpGetAsync("data.json",consultantDone);
+      }
 
-      function consultantDone(consultants) {
-        console.log("Consultants -> " + consultants);
+      function consultantDone(consultantsData) {
+        consultants = JSON.parse(consultantsData);
+        consultants = consultants.locations;
+        console.log("Consultants AAA-> " + consultantsData);
+        console.log(consultantsData.locations);
+        console.log("Consultants XXX -> " + consultantsData);
+        initMap()
       }
 
 
-      consultants = [
+    /*consultants = [
         {
           name: "Stuart",
           location: "B31 3XP",
@@ -58,14 +65,19 @@
           name: "Patrick",
           location: "DE11 7PJ",
         }
-      ];
+      ];*/
 
-      console.log(consultants[0].name);
+      //console.log("Consultants are now -> " + consultants);
+
+      //console.log(consultants[0].name);
 
       var map;
       var markers = [];
 
       function initMap() {
+
+        console.log("Consultants is now -> " + consultants);
+
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 51.495221, lng: -0.131071},
           zoom: 12
@@ -128,7 +140,7 @@
         });
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBn4TTH7tGFGZcrM7IIBL3jfkpL3mZKZQo&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBn4TTH7tGFGZcrM7IIBL3jfkpL3mZKZQo&callback=loadConsultants"
     async defer></script>
   </body>
 </html>

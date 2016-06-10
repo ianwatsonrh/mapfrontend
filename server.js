@@ -13,29 +13,35 @@ if (request.url == "/data.json") {
 	var options = {
 	  host: process.env.DATAHOST,
 	  port: process.env.DATAPORT,
-	  path: '/',
+	  path: process.env.DATAPATH,
 	  method: 'GET',
-	  headers: {
-	    'Content-Type': 'application/json; charset=utf-8'
-	  }
 	};
 
+	console.log('here');
+
+	
+
 	var req = http.request(options, function(res) {
-  		var msg = '';
+
+		var msg = '';
 
   		res.setEncoding('utf8');
   		res.on('data', function(chunk) {
+  			console.log('collecting');
     		msg += chunk;
   		});
   		res.on('end', function() {
+  			console.log('finished');
 		    console.log(msg);
+		    response.writeHead(200, { 'Content-Type': 'text/html'});
+			response.end(msg, 'utf-8');
   		});
+
 	});
 
 	req.write("re");
 	req.end();
-	response.writeHead(200, { 'Content-Type': 'text/html'});
-	response.end("{test:hello}", 'utf-8');
+	
 } else {
 	fs.readFile('./index.html', function(error, content) {
 		if (error) {
